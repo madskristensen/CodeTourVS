@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30807.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeTourVS", "src\CodeTourVS.csproj", "{A65BBA87-689C-4536-93AE-8FE78D371E8B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AE6E0A9E-E173-4D13-BDCD-AB246A55B99F}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		appveyor.yml = appveyor.yml
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A65BBA87-689C-4536-93AE-8FE78D371E8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A65BBA87-689C-4536-93AE-8FE78D371E8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A65BBA87-689C-4536-93AE-8FE78D371E8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A65BBA87-689C-4536-93AE-8FE78D371E8B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6FE26DF4-CF6D-4F29-A9A4-6FBE24DA1069}
+	EndGlobalSection
+EndGlobal
