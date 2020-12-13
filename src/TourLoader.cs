@@ -35,7 +35,7 @@ namespace CodeTourVS
 
         public async Task HandleOpenSolutionAsync()
         {
-            ThreadHelper.ThrowIfNotOnUIThread();
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
             if (ToursExist() && !SolutionFolderExist())
             {
