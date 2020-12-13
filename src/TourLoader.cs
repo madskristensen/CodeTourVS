@@ -18,13 +18,12 @@ namespace CodeTourVS
         private readonly Solution2 _solution;
         private bool _isVisible = false;
         private IVsInfoBarUIElement _uiElement;
-        private readonly static InfoBarHyperlink _typingsFolderHyperlink;
 
         private readonly static InfoBarModel _infoBarModel =
            new InfoBarModel(
                new[] {
                     new InfoBarTextSpan("Code Tours for solution found. "),
-                    _typingsFolderHyperlink = new InfoBarHyperlink("Show them")
+                    new InfoBarHyperlink("Show them")
                },
                KnownMonikers.PlayStepGroup,
                true);
@@ -36,6 +35,8 @@ namespace CodeTourVS
 
         public async Task HandleOpenSolutionAsync()
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             if (ToursExist() && !SolutionFolderExist())
             {
                 await ShowInfoBarAsync();
@@ -64,7 +65,7 @@ namespace CodeTourVS
             }
         }
 
-        private  bool ToursExist()
+        private bool ToursExist()
         {
             ThreadHelper.ThrowIfNotOnUIThread();
             var toursDir = GetToursFolder();
@@ -78,7 +79,7 @@ namespace CodeTourVS
             return Path.Combine(slnDir, Constants.ToursDirName);
         }
 
-        private  bool SolutionFolderExist()
+        private bool SolutionFolderExist()
         {
             ThreadHelper.ThrowIfNotOnUIThread();
 
@@ -94,12 +95,8 @@ namespace CodeTourVS
         public async Task ShowInfoBarAsync()
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            if (_isVisible)
-            {
-                return;
-            }
-
-            if (!await TryCreateInfoBarUIAsync(_infoBarModel))
+            
+            if (_isVisible || !await TryCreateInfoBarUIAsync(_infoBarModel))
             {
                 return;
             }
@@ -118,7 +115,7 @@ namespace CodeTourVS
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
             IVsInfoBarUIFactory infoBarUIFactory = await AsyncServiceProvider.GlobalProvider.GetServiceAsync<SVsInfoBarUIFactory, IVsInfoBarUIFactory>();
-           
+
             _uiElement = infoBarUIFactory.CreateInfoBar(infoBar);
             return _uiElement != null;
         }
@@ -150,11 +147,9 @@ namespace CodeTourVS
         public void OnActionItemClicked(IVsInfoBarUIElement infoBarUIElement, IVsInfoBarActionItem actionItem)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            if (actionItem.Equals(_typingsFolderHyperlink))
-            {
-                AddCodeToursToSolution();
-                infoBarUIElement.Close();
-            }
+
+            AddCodeToursToSolution();
+            infoBarUIElement.Close();
         }
     }
 }
