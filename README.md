@@ -11,5 +11,7 @@ or get the [CI build](https://www.vsixgallery.com/extension/9b0909ef-5ea4-4899-b
 
 An implementation of the Code Tours extension for VS Code, but for Visual Studio 2019.
 
+![Code Tours InfoBar](art/Code%20Tour%20InfoBar.gif)
+
 ## License
 [Apache 2.0](LICENSE)
