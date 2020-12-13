@@ -73,11 +73,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.VisualStudio.GraphModel ">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Microsoft.VisualStudio.GraphModel.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="WindowsBase" />
@@ -85,6 +80,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.SDK" Version="16.0.206" ExcludeAssets="runtime" />
     <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="16.9.1035" />
+    <PackageReference Include="VSSDK.GraphModel" version="12.0.4" ExcludeAssets="runtime" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Registry.pkgdef">
