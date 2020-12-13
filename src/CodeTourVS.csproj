@@ -45,6 +45,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Constants.cs" />
     <Compile Include="Graph\TourGraphNodeNavigator.cs" />
     <Compile Include="Graph\TourGraphProvider.cs" />
     <Compile Include="Graph\TourSchema.cs" />
@@ -56,6 +57,7 @@
       <DependentUpon>source.extension.vsixmanifest</DependentUpon>
     </Compile>
     <Compile Include="Tour.cs" />
+    <Compile Include="TourLoader.cs" />
     <Compile Include="TourManager.cs" />
   </ItemGroup>
   <ItemGroup>

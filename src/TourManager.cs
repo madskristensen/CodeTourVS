@@ -19,7 +19,7 @@ namespace CodeTourVS
 
             if (Directory.Exists(toursFolder))
             {
-                foreach (var file in Directory.EnumerateFiles(toursFolder, "*.tour"))
+                foreach (var file in Directory.EnumerateFiles(toursFolder, $"*{Constants.TourFileExtension}"))
                 {
                     if (cancellationToken.IsCancellationRequested)
                     {
