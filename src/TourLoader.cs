@@ -82,9 +82,11 @@ namespace CodeTourVS
         {
             ThreadHelper.ThrowIfNotOnUIThread();
 
-            var solutionFolder = _solution.Projects
+            Project solutionFolder = _solution.Projects
                 .Cast<Project>()
+#pragma warning disable VSTHRD010 // Invoke single-threaded types on Main thread
                 .FirstOrDefault(p => p.Kind == ProjectKinds.vsProjectKindSolutionFolder && p.Name == Constants.VirtualFolderName);
+#pragma warning restore VSTHRD010 // Invoke single-threaded types on Main thread
 
             return solutionFolder != null;
         }
