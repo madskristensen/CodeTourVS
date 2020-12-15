@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace CodeTourVS
 {
-    public class Tour
+    public class CodeTour
     {
         [JsonIgnore()]
         public string File { get; set; }
@@ -20,6 +22,11 @@ namespace CodeTourVS
 
         [JsonProperty("isPrimary")]
         public bool IsPrimary { get; set; } = true;
+
+        public IEnumerable<Step> GetStepsFromFile(string fileName)
+        {
+            return Steps.Where(s => s.AbsoluteFile.Equals(fileName, StringComparison.OrdinalIgnoreCase));
+        }
     }
 
     public class Step
@@ -43,7 +50,7 @@ namespace CodeTourVS
         public string Directory { get; set; }
 
         [JsonIgnore]
-        public Tour Tour { get; set; }
+        public CodeTour Tour { get; set; }
 
         [JsonIgnore]
         public string AbsoluteFile

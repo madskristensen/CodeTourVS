@@ -3,9 +3,9 @@ using Microsoft.VisualStudio.GraphModel.Schemas;
 
 namespace CodeTourVS
 {
-    internal class TourSchema
+    internal class CodeTourSchema
     {
-        static TourSchema()
+        static CodeTourSchema()
         {
             TourToStepLink.BasedOnCategory = CodeLinkCategories.Contains;
         }

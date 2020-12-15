@@ -13,7 +13,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace CodeTourVS
 {
-    public class TourLoader : IVsInfoBarUIEvents
+    public class CodeTourInfoBar : IVsInfoBarUIEvents
     {
         private readonly Solution2 _solution;
         private bool _isVisible = false;
@@ -22,13 +22,13 @@ namespace CodeTourVS
         private readonly static InfoBarModel _infoBarModel =
            new InfoBarModel(
                new[] {
-                    new InfoBarTextSpan("Code Tours for solution found. "),
-                    new InfoBarHyperlink("Show them")
+                    new InfoBarTextSpan("This solution has guided tours you can take to get familiar with the code base. "),
+                    new InfoBarHyperlink("Start CodeTour")
                },
                KnownMonikers.PlayStepGroup,
                true);
 
-        public TourLoader(Solution2 solution)
+        public CodeTourInfoBar(Solution2 solution)
         {
             _solution = solution;
         }
@@ -48,7 +48,7 @@ namespace CodeTourVS
             ThreadHelper.ThrowIfNotOnUIThread();
 
             Project solFolder = _solution.AddSolutionFolder(Constants.VirtualFolderName);
-            var toursDir = GetToursFolder();
+            var toursDir = _solution.GetToursFolder();
 
             foreach (var file in Directory.EnumerateFiles(toursDir, $"*{Constants.TourFileExtension}"))
             {
@@ -68,15 +68,9 @@ namespace CodeTourVS
         private bool ToursExist()
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            var toursDir = GetToursFolder();
+            var toursDir = _solution.GetToursFolder();
 
             return Directory.Exists(toursDir);
-        }
-
-        private string GetToursFolder()
-        {
-            var slnDir = Path.GetDirectoryName(_solution.FullName);
-            return Path.Combine(slnDir, Constants.ToursDirName);
         }
 
         private bool SolutionFolderExist()

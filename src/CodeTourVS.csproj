@@ -46,9 +46,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
-    <Compile Include="Graph\TourGraphNodeNavigator.cs" />
-    <Compile Include="Graph\TourGraphProvider.cs" />
-    <Compile Include="Graph\TourSchema.cs" />
+    <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="GlyphMargin\CodeTourGlyphFactory.cs" />
+    <Compile Include="GlyphMargin\CodeTourGlyphFactoryProvider.cs" />
+    <Compile Include="GlyphMargin\CodeTourTagger.cs" />
+    <Compile Include="GlyphMargin\CodeTourTaggerProvider.cs" />
+    <Compile Include="Graph\CodeTourGraphNodeNavigator.cs" />
+    <Compile Include="Graph\CodeTourGraphProvider.cs" />
+    <Compile Include="Graph\CodeTourSchema.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CodeTourVSPackage.cs" />
     <Compile Include="source.extension.cs">
@@ -56,9 +61,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>source.extension.vsixmanifest</DependentUpon>
     </Compile>
-    <Compile Include="Tour.cs" />
-    <Compile Include="TourLoader.cs" />
-    <Compile Include="TourManager.cs" />
+    <Compile Include="CodeTour.cs" />
+    <Compile Include="CodeTourInfoBar.cs" />
+    <Compile Include="CodeTourManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\LICENSE">
@@ -75,8 +80,12 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xaml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>

@@ -29,7 +29,7 @@ namespace CodeTourVS
             var dte = await GetServiceAsync(typeof(DTE)) as DTE;
             Assumes.Present(dte);
 
-            var loader = new TourLoader(dte.Solution as Solution2);
+            var loader = new CodeTourInfoBar(dte.Solution as Solution2);
 
             if (isSolutionLoaded)
             {

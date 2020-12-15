@@ -11,7 +11,7 @@ namespace CodeTourVS
         public const string Name = "Code Tour";
         public const string Description = @"Code Tours shows guided tours through any source code base. They are easy to create and easy to use.";
         public const string Language = "en-US";
-        public const string Version = "1.0";
+        public const string Version = "1.0.4";
         public const string Author = "Mads Kristensen";
         public const string Tags = "";
     }
