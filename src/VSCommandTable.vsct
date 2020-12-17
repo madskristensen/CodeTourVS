@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <Extern href="stdidcmd.h"/>
+  <Extern href="vsshlids.h"/>
+  <Include href="KnownImageIds.vsct"/>
+
+  <Commands package="CodeTourVSPackage">
+    <Groups>
+      <Group guid="CodeTourCmdSet" id="MyMenuGroup" priority="0x0600">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS"/>
+      </Group>
+    </Groups>
+
+    <Buttons>
+      <Button guid="CodeTourCmdSet" id="GoToStepCommand" priority="0x0100" type="Button">
+        <Parent guid="CodeTourCmdSet" id="MyMenuGroup" />
+        <Icon guid="ImageCatalogGuid" id="PlayStep" />
+        <CommandFlag>AllowParams</CommandFlag>
+        <Strings>
+          <ButtonText>Go To Code Tour Step</ButtonText>
+          <LocCanonicalName>.CodeTours.GoToStep</LocCanonicalName>
+        </Strings>
+      </Button>
+    </Buttons>
+  </Commands>
+
+  <Symbols>
+    <GuidSymbol name="CodeTourVSPackage" value="{a139934a-4daf-44ff-af02-aa018c2ae51f}" />
+
+    <GuidSymbol name="CodeTourCmdSet" value="{c0f86fe5-9b7c-4a21-8538-512aaef437fd}">
+      <IDSymbol name="MyMenuGroup" value="0x1020" />
+      <IDSymbol name="GoToStepCommand" value="0x0100" />
+    </GuidSymbol>
+  </Symbols>
+</CommandTable>

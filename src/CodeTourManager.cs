@@ -13,7 +13,7 @@ namespace CodeTourVS
     {
         public List<CodeTour> Tours { get; private set; } = new List<CodeTour>();
 
-        public static async Task<CodeTourManager> FromFolderAsync(string toursFolder, CancellationToken cancellationToken)
+        public static async Task<CodeTourManager> FromFolderAsync(string toursFolder, CancellationToken cancellationToken = default)
         {
             var manager = new CodeTourManager();
 

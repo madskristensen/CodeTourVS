@@ -7,8 +7,6 @@ using Microsoft.VisualStudio.Text.Tagging;
 
 namespace CodeTourVS
 {
-    internal class CodeTourTag : IGlyphTag { }
-
     internal class CodeTourTagger : ITagger<CodeTourTag>
     {
         private ITextView _textView;
@@ -34,11 +32,15 @@ namespace CodeTourVS
                 if (step != null)
                 {
                     var ctSpan = new SnapshotSpan(parentSpan.Snapshot, line.Extent);
-                    yield return new TagSpan<CodeTourTag>(ctSpan, new CodeTourTag());
+                    yield return new TagSpan<CodeTourTag>(ctSpan, new CodeTourTag(step));
                 }
             }
         }
 
-        public event EventHandler<SnapshotSpanEventArgs> TagsChanged;
+        public event EventHandler<SnapshotSpanEventArgs> TagsChanged
+        {
+            add { }
+            remove { }
+        }
     }
 }

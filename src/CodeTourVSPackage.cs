@@ -17,6 +17,7 @@ namespace CodeTourVS
     [Guid("a139934a-4daf-44ff-af02-aa018c2ae51f")]
     [ProvideBindingPath()]
     [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionOpening_string, PackageAutoLoadFlags.BackgroundLoad)]
+    [ProvideMenuResource("Menus.ctmenu", 1)]
     public sealed class CodeTourVSPackage : AsyncPackage
     {
         protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress<ServiceProgressData> progress)
@@ -48,6 +49,7 @@ namespace CodeTourVS
             {
                 loader.CloseInfoBar();
             };
+            await GoToStepCommand.InitializeAsync(this);
         }
 
         private async Task<bool> IsSolutionLoadedAsync()

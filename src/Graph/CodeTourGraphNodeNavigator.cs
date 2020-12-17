@@ -19,7 +19,7 @@ namespace CodeTourVS
             ThreadHelper.ThrowIfNotOnUIThread();
 
             var node = (GraphNode)obj;
-            SourceLocation loc = node.GetValue<SourceLocation>(CodeNodeProperties.SourceLocation);
+            var loc = node.GetValue<SourceLocation>(CodeNodeProperties.SourceLocation);
 
             if (loc.FileName != null)
             {
