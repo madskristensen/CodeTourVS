@@ -27,7 +27,7 @@ namespace CodeTourVS
                 var parentSpan = curSpan.TranslateTo(_textView.TextBuffer.CurrentSnapshot, SpanTrackingMode.EdgeExclusive);
                 var line = parentSpan.Snapshot.GetLineFromPosition(parentSpan.Start.Position);
 
-                var step = _steps.FirstOrDefault(s => s.Line == line.LineNumber);
+                var step = _steps.FirstOrDefault(s => s.Line - 1 == line.LineNumber);
 
                 if (step != null)
                 {

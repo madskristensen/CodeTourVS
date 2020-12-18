@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Input;
 using Microsoft.VisualStudio.Language.Intellisense;
+using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Adornments;
 using Microsoft.VisualStudio.Text.Editor;
@@ -28,14 +29,20 @@ namespace CodeTourVS
 
         public override void PostprocessMouseLeftButtonUp(MouseButtonEventArgs e)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             ITextView view = _host.TextView;
 
             Point mousePosition = Mouse.GetPosition(_host.TextView.VisualElement);
             mousePosition.Offset(_host.TextView.ViewportLeft, _host.TextView.ViewportTop);
 
             var line = view.TextViewLines.GetTextViewLineContainingYCoordinate(mousePosition.Y);
-            view.Caret.MoveTo(line);
-            _peekBroker.TriggerPeekSession(_host.TextView, CodeTourPeekRelationship.RelationshipName);
+            //view.Caret.MoveTo(line);
+
+            IMappingTagSpan<CodeTourTag> eSpan = _tagAggregator.GetTags(line.ExtentAsMappingSpan).FirstOrDefault();
+            CodeTourManager.CurrentStep = eSpan.Tag.Step;
+
+            var dte = ServiceProvider.GlobalProvider.GetService(typeof(EnvDTE.DTE)) as EnvDTE.DTE;
+            dte?.ExecuteCommand("CodeTours.GoToStep");
         }
 
         public override void PostprocessMouseMove(MouseEventArgs e)
