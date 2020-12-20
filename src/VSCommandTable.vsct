@@ -16,7 +16,7 @@
       <Button guid="CodeTourCmdSet" id="GoToStepCommand" priority="0x0100" type="Button">
         <Parent guid="CodeTourCmdSet" id="MyMenuGroup" />
         <Icon guid="ImageCatalogGuid" id="PlayStep" />
-        <CommandFlag>AllowParams</CommandFlag>
+        <CommandFlag>CommandWellOnly</CommandFlag>
         <Strings>
           <ButtonText>Go To Code Tour Step</ButtonText>
           <LocCanonicalName>.CodeTours.GoToStep</LocCanonicalName>

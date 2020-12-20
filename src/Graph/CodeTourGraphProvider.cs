@@ -30,13 +30,11 @@ namespace CodeTourVS
 
         public void BeginGetGraphData(IGraphContext context)
         {
-            ThreadHelper.ThrowIfNotOnUIThread();
-
             if (context.Direction == GraphContextDirection.Self &&
                 context.RequestedProperties.Contains(DgmlNodeProperties.ContainsChildren))
             {
                 MarkThatNodesHaveChildren(context);
-                RegisterImages();
+                RegisterImagesAsync().FileAndForget(nameof(CodeTourGraphProvider.BeginGetGraphData));
                 context.OnCompleted();
             }
 
@@ -97,7 +95,6 @@ namespace CodeTourVS
                             EnsureAbsolutePath(step);
                             var loc = new SourceLocation(step.AbsoluteFile, new Position(step.Line, 0));
                             stepNode.SetValue(CodeNodeProperties.SourceLocation, loc);
-                            // TODO: Register new icons
                             stepNode[DgmlNodeProperties.Icon] = _iconStep;
 
                             GraphLink link = graph.Links.GetOrCreate(tourNode, stepNode, null, CodeTourSchema.TourToStepLink);
@@ -114,7 +111,6 @@ namespace CodeTourVS
                         }
                     }
                 }
-
                 scope.Complete();
             }
         }
@@ -135,25 +131,16 @@ namespace CodeTourVS
                    localPath.EndsWith(".tour");
         }
 
-        protected void RegisterImages()
+        protected async Task RegisterImagesAsync()
         {
-            ThreadHelper.ThrowIfNotOnUIThread();
-
             if (_imagesRegistered)
             {
                 return;
             }
 
-            IVsImageService2 imageService = ServiceProvider.GetService<SVsImageService, IVsImageService2>();
-            IVsUIObject icon = imageService.GetImage(KnownMonikers.WPFResourceDictionary, new ImageAttributes()
-            {
-                Flags = (uint)_ImageAttributesFlags.IAF_RequiredFlags,
-                ImageType = (uint)_UIImageType.IT_Bitmap,
-                Format = (uint)_UIDataFormat.DF_WPF,
-                LogicalHeight = 16,
-                LogicalWidth = 16,
-                StructSize = Marshal.SizeOf(typeof(ImageAttributes)),
-            });
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+            IVsImageService2 imageService = await AsyncServiceProvider.GlobalProvider.GetServiceAsync<SVsImageService, IVsImageService2>();
+            IVsUIObject icon = await KnownMonikers.Favorite.ToUiObjectAsync(16);
 
             imageService.Add(_iconStep, icon);
             _imagesRegistered = true;
@@ -164,7 +151,6 @@ namespace CodeTourVS
 
         public Graph Schema => null; // only for architecture explorer
 
-        // Not sure what this does if anything at all
         public IEnumerable<GraphCommand> GetCommands(IEnumerable<GraphNode> nodes)
         {
             return new[] {

@@ -10,7 +10,7 @@ namespace CodeTourVS
     {
         public IPeekResultPresentation TryCreatePeekResultPresentation(IPeekResult result)
         {
-            return result is CodeTourPeekResult ctResult ? new CodeTourPeekResultPresentation(ctResult.Step) : null;
+            return result is CodeTourPeekResult ? new CodeTourPeekResultPresentation() : null;
         }
     }
 }

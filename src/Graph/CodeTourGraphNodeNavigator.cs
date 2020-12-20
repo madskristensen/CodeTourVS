@@ -1,10 +1,10 @@
 ﻿using System;
-using Microsoft.VisualStudio;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.VisualStudio.GraphModel;
 using Microsoft.VisualStudio.GraphModel.CodeSchema;
 using Microsoft.VisualStudio.GraphModel.Schemas;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
 
 namespace CodeTourVS
 {
@@ -12,28 +12,29 @@ namespace CodeTourVS
     {
         public IServiceProvider serviceProvider;
 
-        public int GetRank(GraphObject graphObject) => 0; // not sure what this is for
+        public int GetRank(GraphObject graphObject) => 0;
 
         public void NavigateTo(GraphObject obj)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
 
             var node = (GraphNode)obj;
-            var loc = node.GetValue<SourceLocation>(CodeNodeProperties.SourceLocation);
+            SourceLocation loc = node.GetValue<SourceLocation>(CodeNodeProperties.SourceLocation);
 
-            if (loc.FileName != null)
+            ThreadHelper.JoinableTaskFactory.RunAsync(async () =>
             {
-                using (new NewDocumentStateScope(__VSNEWDOCUMENTSTATE2.NDS_TryProvisional, VSConstants.NewDocumentStateReason.SolutionExplorer))
+                CodeTourManager manager = await CodeTourManager.FromSourceFileAsync(loc.FileName.OriginalString);
+
+                IEnumerable<Step> stepsInFile = manager.GetStepsContainingFile(loc.FileName.OriginalString);
+                CodeTourManager.CurrentStep = stepsInFile.FirstOrDefault(s => s.Line == loc.StartPosition.Line);
+
+                if (CodeTourManager.CurrentStep != null)
                 {
-                    VsShellUtilities.OpenDocument(serviceProvider, loc.FileName.OriginalString);
+                    await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+                    EnvDTE.DTE dte = await AsyncServiceProvider.GlobalProvider.GetServiceAsync<EnvDTE.DTE, EnvDTE.DTE>();
+                    dte?.ExecuteCommand("CodeTours.GoToStep");
                 }
-            }
-
-            if (loc.StartPosition.Line > 0)
-            {
-                var dte = serviceProvider.GetService(typeof(EnvDTE.DTE)) as EnvDTE.DTE;
-                dte?.ExecuteCommand("Edit.GoTo", loc.StartPosition.Line.ToString());
-            }
+            }).FileAndForget(nameof(CodeTourGraphNodeNavigator));
         }
     }
 }

@@ -9,13 +9,6 @@ namespace CodeTourVS
 {
     internal class CodeTourPeekResultPresentation : IPeekResultPresentation
     {
-        public CodeTourPeekResultPresentation(Step step)
-        {
-            Step = step;
-        }
-
-        public Step Step { get; }
-
         public double ZoomLevel
         {
             get { return 1.0; }
@@ -63,7 +56,8 @@ namespace CodeTourVS
                 image.Source = await KnownMonikers.Reference.ToImageSourceAsync(256);
             });
 
-            return image;
+
+            return new StepView(CodeTourManager.CurrentStep);
         }
 
         public void Dispose()

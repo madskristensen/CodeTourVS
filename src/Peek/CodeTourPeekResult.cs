@@ -5,19 +5,12 @@ namespace CodeTourVS
 {
     internal class CodeTourPeekResult : IPeekResult
     {
-        public CodeTourPeekResult(Step step)
-        {
-            Step = step;
-        }
-
         public IPeekResultDisplayInfo DisplayInfo =>
-             new PeekResultDisplayInfo("Code Tour", null, "Code Tour", "Code Tour");
+             new PeekResultDisplayInfo("Code Tour", null, "Code Tour: " + CodeTourManager.CurrentStep.Title, "Code Tour");
 
         public bool CanNavigateTo => true;
 
         public Action<IPeekResult, object, object> PostNavigationCallback => null;
-
-        public Step Step { get; }
 
         public event EventHandler Disposed;
 

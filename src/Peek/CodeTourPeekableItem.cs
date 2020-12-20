@@ -34,7 +34,7 @@ namespace CodeTourVS
         {
             if (relationshipName == CodeTourPeekRelationship.RelationshipName)
             {
-                return new CodeTourResultSource(_peekResultFactory, _step, _span);
+                return new CodeTourResultSource();
             }
 
             return null;

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft;
 using Microsoft.VisualStudio;
@@ -16,7 +15,7 @@ namespace CodeTourVS
 {
     public class CodeTourPeekableItemSource : IPeekableItemSource
     {
-        private IPeekResultFactory _peekResultFactory;
+        private readonly IPeekResultFactory _peekResultFactory;
         private readonly ITextBuffer _textBuffer;
         private readonly IViewTagAggregatorFactoryService _viewTagAggregatorService;
 
@@ -29,14 +28,16 @@ namespace CodeTourVS
 
         public void AugmentPeekSession(IPeekSession session, IList<IPeekableItem> peekableItems)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
             if (session.RelationshipName == CodeTourPeekRelationship.RelationshipName)
             {
-                var view = GetTextView();
-                var aggregator = _viewTagAggregatorService.CreateTagAggregator<CodeTourTag>(view);
+                IWpfTextView view = GetTextView();
+                ITagAggregator<CodeTourTag> aggregator = _viewTagAggregatorService.CreateTagAggregator<CodeTourTag>(view);
 
-                var point = view.Caret.Position.BufferPosition.TranslateTo(_textBuffer.CurrentSnapshot, PointTrackingMode.Positive);
-                var line = point.GetContainingLine().Extent;
-                var tag = aggregator.GetTags(line).FirstOrDefault();
+                SnapshotPoint point = view.Caret.Position.BufferPosition.TranslateTo(_textBuffer.CurrentSnapshot, PointTrackingMode.Positive);
+                SnapshotSpan line = point.GetContainingLine().Extent;
+                IMappingTagSpan<CodeTourTag> tag = aggregator.GetTags(line).FirstOrDefault();
 
                 if (tag != null)
                 {
@@ -65,7 +66,7 @@ namespace CodeTourVS
 
         public void Dispose()
         {
-           
+
         }
     }
 }

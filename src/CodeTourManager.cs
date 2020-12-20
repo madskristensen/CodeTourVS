@@ -53,7 +53,7 @@ namespace CodeTourVS
                 parent = parent.Parent;
             }
 
-            return null;
+            return Task.FromResult(new CodeTourManager());
         }
 
         public CodeTour GetTour(string tourFile)

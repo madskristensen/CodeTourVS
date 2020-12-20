@@ -15,7 +15,7 @@ namespace CodeTourVS
 
             ThreadHelper.JoinableTaskFactory.Run(async () =>
             {
-                image.Source = await KnownMonikers.PlayStep.ToImageSourceAsync(10);
+                image.Source = await KnownMonikers.Favorite.ToImageSourceAsync(10);
             });
 
             return image;
