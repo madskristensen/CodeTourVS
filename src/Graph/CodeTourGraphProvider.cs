@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using Microsoft.Internal.VisualStudio.PlatformUI;
 using Microsoft.VisualStudio.GraphModel;
 using Microsoft.VisualStudio.GraphModel.CodeSchema;
 using Microsoft.VisualStudio.GraphModel.Schemas;
 using Microsoft.VisualStudio.Imaging;
-using Microsoft.VisualStudio.Imaging.Interop;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.Threading;
@@ -45,7 +43,10 @@ namespace CodeTourVS
                 {
                     try
                     {
-                        await PopulateChildrenOfNodesAsync(context);
+                        await PopulateChildrenOfNodesAsync(context).ConfigureAwait(false);
+                    }
+                    catch
+                    { 
                     }
                     finally
                     {
@@ -113,6 +114,8 @@ namespace CodeTourVS
                 }
                 scope.Complete();
             }
+
+            context.OnCompleted();
         }
 
         private void EnsureAbsolutePath(Step step)
